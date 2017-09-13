@@ -313,7 +313,7 @@ fi
 if [ ! -d $PROGDIR/$BOOST_DIR ]
 then
 	echo "Unpacking boost"
-	if [ $OPTION_PROGRESS = "yes" ] ; then
+	if [ "x$OPTION_PROGRESS" = "xyes" ] ; then
 		pv $PROGDIR/$BOOST_TAR | tar xjf - -C $PROGDIR
 	else
 		tar xjf $PROGDIR/$BOOST_TAR
