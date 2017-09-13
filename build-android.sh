@@ -28,12 +28,16 @@
 # -----------------------
 
 BOOST_VER1=1
-BOOST_VER2=53
-BOOST_VER3=0
-register_option "--boost=<version>" boost_version "Boost version to be used, one of {1.55.0, 1.54.0, 1.53.0, 1.49.0, 1.48.0, 1.45.0}, default is 1.53.0."
+BOOST_VER2=65
+BOOST_VER3=1
+register_option "--boost=<version>" boost_version "Boost version to be used, one of {1.55.0, 1.54.0, 1.53.0, 1.49.0, 1.48.0, 1.45.0, 1.65.1}, default is 1.65.1."
 boost_version()
 {
-  if [ "$1" = "1.55.0" ]; then
+  if [ "$1" = "1.65.1" ]; then
+    BOOST_VER1=1
+    BOOST_VER2=65
+    BOOST_VER3=1
+  elif [ "$1" = "1.55.0" ]; then
     BOOST_VER1=1
     BOOST_VER2=55
     BOOST_VER3=0
@@ -198,6 +202,9 @@ esac
 NDK_RELEASE_FILE=$AndroidNDKRoot"/RELEASE.TXT"
 if [ -f "${NDK_RELEASE_FILE}" ]; then
     NDK_RN=`cat $NDK_RELEASE_FILE | sed 's/^r\(.*\)$/\1/g'`
+elif [ -f "${AndroidNDKRoot}/source.properties" ]; then
+    NDK_RELEASE_FILE="${AndroidNDKRoot}/source.properties"
+    NDK_RN=`grep ^Pkg.Revision ${NDK_RELEASE_FILE} | sed 's/Pkg.Revision = \(.*\)/\1/'`
 elif [ -n "${AndroidSourcesDetected}" ]; then
     if [ -f "${ANDROID_BUILD_TOP}/ndk/docs/CHANGES.html" ]; then
         NDK_RELEASE_FILE="${ANDROID_BUILD_TOP}/ndk/docs/CHANGES.html"
@@ -259,9 +266,14 @@ case "$NDK_RN" in
 		;;
 	"10 (64-bit)"|"10b (64-bit)")
 		TOOLCHAIN=${TOOLCHAIN:-arm-linux-androideabi-4.6}
-                CXXPATH=$AndroidNDKRoot/toolchains/${TOOLCHAIN}/prebuilt/${PlatformOS}-x86_64/bin/arm-linux-androideabi-g++
-                TOOLSET=gcc-androidR8e
-                ;;
+		CXXPATH=$AndroidNDKRoot/toolchains/${TOOLCHAIN}/prebuilt/${PlatformOS}-x86_64/bin/arm-linux-androideabi-g++
+		TOOLSET=gcc-androidR8e
+		;;
+	15.1.*)
+		TOOLCHAIN=${TOOLCHAIN:-arm-linux-androideabi-4.9}
+		CXXPATH=$AndroidNDKRoot/toolchains/${TOOLCHAIN}/prebuilt/${PlatformOS}-x86_64/bin/arm-linux-androideabi-g++
+		TOOLSET=gcc-androidR15c
+		;;
 	*)
 		echo "Undefined or not supported Android NDK version!"
 		exit 1
