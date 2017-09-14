@@ -420,6 +420,7 @@ echo "Building boost for android"
          link=static                  \
          threading=multi              \
          --layout=versioned           \
+         --without-python             \
          --prefix="./../$BUILD_DIR/"  \
          $LIBRARIES                   \
          install 2>&1                 \
