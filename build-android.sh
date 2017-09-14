@@ -359,7 +359,6 @@ then
 
   BOOST_VER_INT=$((${BOOST_VER1} * 10000 + ${BOOST_VER2} * 100 + ${BOOST_VER3}))
   if [ $BOOST_VER_INT -ge 16501 ]; then
-    cp configs/user-config-boost-${BOOST_VER}.jam $BOOST_DIR/tools/build/user-config.jam
     cp configs/user-config-boost-${BOOST_VER}.jam ~/user-config.jam
   else
     cp configs/user-config-boost-${BOOST_VER}.jam $BOOST_DIR/tools/build/v2/user-config.jam
