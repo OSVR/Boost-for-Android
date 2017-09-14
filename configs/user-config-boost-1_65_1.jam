@@ -81,5 +81,7 @@ arm-linux-androideabi-g++
 <cxxflags>-D__arm__
 <cxxflags>-D_REENTRANT
 <cxxflags>-D_GLIBCXX__PTHREADS
+<cxxflags>-std=c++11
+<linkflags>-std=c++11
 ;
 
