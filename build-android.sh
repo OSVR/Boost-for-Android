@@ -357,7 +357,12 @@ then
   BOOST_VER=${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}
   PATCH_BOOST_DIR=$PROGDIR/patches/boost-${BOOST_VER}
 
-  cp configs/user-config-boost-${BOOST_VER}.jam $BOOST_DIR/tools/build/v2/user-config.jam
+  BOOST_VER_INT=$((${BOOST_VER1} * 10000 + ${BOOST_VER2} * 100 + ${BOOST_VER3}))
+  if [ $BOOST_VER_INT -ge 16501 ]; then
+    cp configs/user-config-boost-${BOOST_VER}.jam $BOOST_DIR/tools/build/user-config.jam
+  else
+    cp configs/user-config-boost-${BOOST_VER}.jam $BOOST_DIR/tools/build/v2/user-config.jam
+  fi
 
   for dir in $PATCH_BOOST_DIR; do
     if [ ! -d "$dir" ]; then
